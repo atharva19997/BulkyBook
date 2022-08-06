@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Category>
+@*To add what is passed from the action in controller, you have to you all lowercase 'model' and add the type here as above*@
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index Category</h1>
+
+<div class="container p-3">
+    <div class="row pt-4">     @*it is bootstrap code, it divides the row by default in 12 parts, so if you want 2 parts, do it 6-6*@
+        <div class="col-6">
+            <h2 class="text-primary">Category List</h2>
+        </div>
+        <div class="col-6 text-end">    @*text-end will align it to right end of table*@
+            <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
+             <i class="bi bi-plus-circle"></i> &nbsp;   Create new Category
+            </a>
+        </div>
+    </div>
+    @*We want to add icon in button so instead of using font awesome, which is difficult, bootstrap has its own icons.
+        go to getbootstrap.com and icons tab, copy the cdn link tag and paste in layout.
+        then go to site and search for plus then copy the <i> tag code and paste here before the text as above.
+    *@
+    <br /><br />
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th>
+                Display Order
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model)
+        {
+            <tr>
+                <td width="50%">
+                    @obj.Name
+                </td>
+                <td width="30%">
+                    @obj.DisplayOrder
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+</div> @* Why close container at the end? Did not understand this one*@

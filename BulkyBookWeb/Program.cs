@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();     // Not useful for Razor Pages. so add next line too.
+//builder.Services.AddRazorPages().AddRazorRuntimeCompilation();  // Not working, they added it in line before! but written here just in case
+
 builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")      // Special method that will only look inside "ConnectionStrings." We can do another block, but if special method is present, not needed.
     ))    //you will have to add sql server manually only.

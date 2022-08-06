@@ -25,4 +25,15 @@ In entity framework, there are migrations that push the changes to Database. To 
 Add a migration, which will track all the db changes that are needed, and once migration is created, we will push to DB to actually create a DB.
 In console, PM> add-migration AddCategoryToDatabase	(missing package for add-migration; need EC Core Tools package)
 New folder will be created with 2 files and name 'Migrations'
-When migration is looking good, say PM> update database
+When migration is looking good, say PM> update-database. It will create the db with settings in migration. check ssms for that db.
+2 tables can be seen, one of which keeps track of which migration to be updated, as all migrations are not needed to be updated everytime. entity framework does that.
+To open a db, right click and select top 1000 rows
+
+Run program on IISExpress to stop opening cmd everytime. Make sure to open VS through admin account to do this change.
+Rule to keep NameController.cs to understand that it is a controller.
+
+Go in SSMS and edit cateogries table by clicking edit top 200 and adding 1 dummy record.
+
+Add a bootswatch.com theme for in your wwwroot css folder. Remove '.btn-primary' and '.a' (if present) code to use from bootswatch.
+
+Need to add exception to create button in create form
