@@ -8,7 +8,7 @@ namespace BulkyBookWeb.Controllers
     {
         private readonly ApplicationDBContext _db;
         // since we are adding dependency injector, we need not create an object to access db here, just use it.
-        
+
         //We need to tell our App that we need an implementation of this ApplicationDBContext where connection to DB is already made. Use ctor and double tab.
         public CategoryController(ApplicationDBContext db)
         {
@@ -37,9 +37,54 @@ namespace BulkyBookWeb.Controllers
         // https://www.youtube.com/watch?v=3IQ3wgpjizc check out in detail.
         public IActionResult Create(Category obj)   //This for getting values from Create button in create category
         {
-            _db.Categories.Add(obj);    //So simple to add it to the DB
-            _db.SaveChanges();          //It will be pushed to DB here.
-            return RedirectToAction("Index");   //Can add action from another controller like ("Index","Home")
+            if (obj.Name == obj.DisplayOrder.ToString())    //Custom error validations; also server side
+            {
+                //ModelState.AddModelError("CustomError", "The DisplayOrder cannot exactly match the Name");    // will show error on top.
+                ModelState.AddModelError("Name", "The DisplayOrder cannot exactly match the Name");     // will add the error under name textbox as well
+            }
+            if (ModelState.IsValid) //Server side validations   If it is not valid, we can check error count and which properties are not valid in values -> result view.
+            {
+                _db.Categories.Add(obj);    //So simple to add it to the DB
+                _db.SaveChanges();          //It will be pushed to DB here.
+                return RedirectToAction("Index");   //Can add action from another controller like ("Index","Home")
+            }
+            return View(obj);
+        }
+
+        //GET
+        public IActionResult Edit(int? @id)     //To get existing data in textboxes
+        {
+            if(id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var CategoryFromDb = _db.Categories.Find(id);   // _db.Categories will get all values from db
+            //var CategoeyFromDbFirst = _db.Categories.FirstOrDefault(u => u.Id == id); // Also find First and check difference in exceptions 
+            //var CategoeyFromDbSingle= _db.Categories.SingleOrDefault(u => u.Id == id); // Also find Single and check difference in exceptions 
+
+           if(CategoryFromDb == null) { return NotFound(); }
+
+            return View(CategoryFromDb);
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]  
+        
+        public IActionResult Edit(Category obj)   //This for getting values from Create button in create category
+        {
+            if (obj.Name == obj.DisplayOrder.ToString())    //Custom error validations; also server side
+            {
+                //ModelState.AddModelError("CustomError", "The DisplayOrder cannot exactly match the Name");    // will show error on top.
+                ModelState.AddModelError("Name", "The DisplayOrder cannot exactly match the Name");     // will add the error under name textbox as well
+            }
+            if (ModelState.IsValid) //Server side validations   If it is not valid, we can check error count and which properties are not valid in values -> result view.
+            {
+                _db.Categories.Add(obj);    //So simple to add it to the DB
+                _db.SaveChanges();          //It will be pushed to DB here.
+                return RedirectToAction("Index");   //Can add action from another controller like ("Index","Home")
+            }
+            return View(obj);
         }
 
     }

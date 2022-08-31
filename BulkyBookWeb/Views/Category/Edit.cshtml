@@ -1,25 +1,25 @@
-﻿@*We are not passing anything from controller but we want to work on a model, so*@
+﻿@*Initially was a replica of Create.cshtml*@
 @model Category
 
 
-<form method="post">
+<form method="post" asp-action="Edit">  @* asp-action not required as it will post on the get it got on, which here is edit*@
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-        <h2 class="text-primary">Create Category</h2>
+        <h2 class="text-primary">Edit Category</h2>
         <hr />
         </div>
-        @*<div asp-validation-summary="All"></div> Adds a summary on top with errors, ipmortant for custom validations  Commented because inline validations are sufficient*@
+        
         <div class="mb-3">
             <label asp-for="Name"></label>  @*Displays Name from Category model due to asp-for, else we would have to write it manually.*@
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>     @*client side validations*@
             </div>
         <div class="mb-3">
-            <label asp-for="DisplayOrder"></label>  @*Displays Display Order without the space as it is in controller.*@
+            <label asp-for="DisplayOrder"></label> 
             <input asp-for="DisplayOrder" class="form-control" />
             <span asp-validation-for="DisplayOrder" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+            <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
             <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">
                 Back to list
             </a>

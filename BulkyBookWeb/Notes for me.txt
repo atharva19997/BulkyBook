@@ -36,4 +36,8 @@ Go in SSMS and edit cateogries table by clicking edit top 200 and adding 1 dummy
 
 Add a bootswatch.com theme for in your wwwroot css folder. Remove '.btn-primary' and '.a' (if present) code to use from bootswatch.
 
-Need to add exception to create button in create form
+Need to add exception to create button in create form. So we should add validations on server side as well as client side.
+Server side: Add code in Controller where post method is written to check the values coming are valid.
+Client side: Add span tag in create.cshtml 
+
+We can also add custom validations in controller(Like if conditions in office, but better)
