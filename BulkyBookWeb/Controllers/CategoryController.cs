@@ -46,6 +46,7 @@ namespace BulkyBookWeb.Controllers
             {
                 _db.Categories.Add(obj);    //So simple to add it to the DB
                 _db.SaveChanges();          //It will be pushed to DB here.
+                TempData["Success"] = "Category created successfully"; // We can store only 1 request in temp data, it will be gone if same page is refreshed.
                 return RedirectToAction("Index");   //Can add action from another controller like ("Index","Home")
             }
             return View(obj);
@@ -54,38 +55,70 @@ namespace BulkyBookWeb.Controllers
         //GET
         public IActionResult Edit(int? @id)     //To get existing data in textboxes
         {
-            if(id == null || id == 0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
             var CategoryFromDb = _db.Categories.Find(id);   // _db.Categories will get all values from db
-            //var CategoeyFromDbFirst = _db.Categories.FirstOrDefault(u => u.Id == id); // Also find First and check difference in exceptions 
-            //var CategoeyFromDbSingle= _db.Categories.SingleOrDefault(u => u.Id == id); // Also find Single and check difference in exceptions 
+                                                            //var CategoeyFromDbFirst = _db.Categories.FirstOrDefault(u => u.Id == id); // Also find First and check difference in exceptions 
+                                                            //var CategoeyFromDbSingle= _db.Categories.SingleOrDefault(u => u.Id == id); // Also find Single and check difference in exceptions 
 
-           if(CategoryFromDb == null) { return NotFound(); }
+            if (CategoryFromDb == null) { return NotFound(); }
 
             return View(CategoryFromDb);
         }
 
         //POST
         [HttpPost]
-        [ValidateAntiForgeryToken]  
-        
-        public IActionResult Edit(Category obj)   //This for getting values from Create button in create category
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Edit(Category obj)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())    //Custom error validations; also server side
+            if (obj.Name == obj.DisplayOrder.ToString())
             {
-                //ModelState.AddModelError("CustomError", "The DisplayOrder cannot exactly match the Name");    // will show error on top.
-                ModelState.AddModelError("Name", "The DisplayOrder cannot exactly match the Name");     // will add the error under name textbox as well
+
+                ModelState.AddModelError("Name", "The DisplayOrder cannot exactly match the Name");
             }
-            if (ModelState.IsValid) //Server side validations   If it is not valid, we can check error count and which properties are not valid in values -> result view.
+            if (ModelState.IsValid)
             {
-                _db.Categories.Add(obj);    //So simple to add it to the DB
-                _db.SaveChanges();          //It will be pushed to DB here.
-                return RedirectToAction("Index");   //Can add action from another controller like ("Index","Home")
+                _db.Categories.Update(obj);    //update instead of add in db. checks primary key and updates by itself.
+                _db.SaveChanges();
+                TempData["Success"] = "Category updated successfully";
+                return RedirectToAction("Index");
             }
             return View(obj);
         }
 
+
+        //GET
+        public IActionResult Delete(int? @id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var CategoryFromDb = _db.Categories.Find(id);
+
+            if (CategoryFromDb == null) { return NotFound(); }
+
+            return View(CategoryFromDb);
+        }
+
+        //POST
+        [HttpPost]  //We can also give [HttpPost, ActionName("Delete")] which will work if we write post name 'delete' in view.
+        [ValidateAntiForgeryToken]
+
+        public IActionResult DeletePost(int? @id)  //Because no data is added, only id will suffice. Had to change name because same parameters     When delete is clicked, id returned is null, so addded a line in delete view.
+        {
+            var obj = _db.Categories.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.Categories.Remove(obj);    //Removes obj from db
+            _db.SaveChanges();
+            TempData["Success"] = "Category deleted successfully";
+            return RedirectToAction("Index");
+        }
     }
 }
