@@ -6,10 +6,7 @@
 
 <h1>Index Category</h1>
 
-@if(TempData["Success"] != null)
-{
-    <h2>@TempData["Success"]</h2>
-}
+@*<partial name="_Notification" />  rather than adding this notification line in every page, add it in layout view just above the line @RenderBody() is called*@
 
 <div class="container p-3">
     <div class="row pt-4">     @*it is bootstrap code, it divides the row by default in 12 parts, so if you want 2 parts, do it 6-6*@

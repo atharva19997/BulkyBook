@@ -41,3 +41,17 @@ Server side: Add code in Controller where post method is written to check the va
 Client side: Add span tag in create.cshtml 
 
 We can also add custom validations in controller(Like if conditions in office, but better)
+
+As we added partial view for showing tempdata success note, we can do better by using toastr, go to its github page, say show demo to check.
+To use, copy the mimified css link and add them in _Layout in link tags below css line.
+Copy the mimified js link and paste it in _Notification partial view. We also require jquery.min.js reference to use toastr here.
+Check uses on the same webpage.
+
+
+After all we did, we can make a controller directly using entity framework which will make all the things by itself.
+To try that, make a new controller with the name CategoriesTempController.
+Click on add new controller with views, using entity framework; select the category model and applicationDBContext that we made in the data context class and add.
+It will add all the actions needed for doing crud operations with entity framework.
+To run this, we need to manually add /CategoriesTemp in front of link to go there and check the crud operations made for us.
+
+You can deploy on Azure using their DB and making a profile of that account in our VS project and deploy it, but it costs money monthly.
